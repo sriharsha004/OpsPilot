@@ -1,0 +1,44 @@
+# Roadmap (internal, not for repo)
+Applied_AI_Engineer_Roadmap_v6_MCP_Centric.md
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
+.next/
+.nuxt/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Data / secrets
+*.pem
+*.key
+secrets/
