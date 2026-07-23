@@ -6,7 +6,12 @@ build-backend = "setuptools.backends.legacy:build"
 name = "opspilot"
 version = "0.1.0"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "sqlalchemy>=2.0",
+    "psycopg[binary]>=3.1",
+    "alembic>=1.13",
+    "python-dotenv>=1.0",
+]
 
 [project.optional-dependencies]
 dev = [
