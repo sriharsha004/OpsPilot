@@ -2,11 +2,9 @@ import os
 import sys
 from logging.config import fileConfig
 
-from dotenv import load_dotenv
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
+from dotenv import load_dotenv
+from sqlalchemy import engine_from_config, pool
 
 # make the `app` package importable regardless of the cwd alembic is run from
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))

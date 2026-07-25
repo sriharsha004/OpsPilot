@@ -13,16 +13,18 @@ def _code_for_status(status_code: int) -> str:
         return "error"
 
 
-async def http_exception_handler(request: Request, exc: HTTPException) -> JSONResponse:
+async def http_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    # Starlette's handler registry is keyed by exception type, so `exc` is
+    # guaranteed to be an HTTPException here - narrow the type for mypy.
+    assert isinstance(exc, HTTPException)
     return JSONResponse(
         status_code=exc.status_code,
         content={"error": {"code": _code_for_status(exc.status_code), "message": exc.detail}},
     )
 
 
-async def validation_exception_handler(
-    request: Request, exc: RequestValidationError
-) -> JSONResponse:
+async def validation_exception_handler(request: Request, exc: Exception) -> JSONResponse:
+    assert isinstance(exc, RequestValidationError)
     return JSONResponse(
         status_code=422,
         content={

@@ -1,5 +1,7 @@
 import uuid
 
+from app.models.tenant import Tenant
+
 
 def _create_tenant(client, name="Leander Campus"):
     return client.post("/tenants", json={"name": name}).json()
@@ -103,3 +105,25 @@ def test_update_lead_cross_tenant_not_found(client):
         f"/tenants/{tenant_b['id']}/leads/{lead['id']}", json={"status": "contacted"}
     )
     assert r.status_code == 404
+
+
+def test_update_lead_cross_tenant_does_not_mutate_data(client, db, tenant):
+    other_tenant = Tenant(name="Other Tenant")
+    db.add(other_tenant)
+    db.commit()
+    db.refresh(other_tenant)
+
+    lead = client.post(
+        f"/tenants/{tenant.id}/leads",
+        json={"name": "Jane Doe", "source": "website_form"},
+    ).json()
+
+    # rejected cross-tenant update
+    r = client.patch(
+        f"/tenants/{other_tenant.id}/leads/{lead['id']}", json={"status": "contacted"}
+    )
+    assert r.status_code == 404
+
+    # the lead itself must be untouched - a 404 alone doesn't prove nothing was mutated
+    unchanged = client.get(f"/tenants/{tenant.id}/leads/{lead['id']}").json()
+    assert unchanged["status"] == "new"

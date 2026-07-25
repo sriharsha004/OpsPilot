@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Boolean, DateTime, Enum, ForeignKey, String, func
 from sqlalchemy.dialects.postgresql import UUID
@@ -7,6 +8,11 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
 from app.models.enums import UserRole
+
+if TYPE_CHECKING:
+    from app.models.franchisor import Franchisor
+    from app.models.tenant import Tenant
+    from app.models.user_tenant_access import UserTenantAccess
 
 
 class User(Base):

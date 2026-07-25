@@ -17,6 +17,7 @@ from app.api.dependencies.database import get_db  # noqa: E402
 from app.database.base import Base  # noqa: E402
 from app.main import app  # noqa: E402
 from app.models import Franchisor, Lead, Tenant, User, UserTenantAccess  # noqa: E402, F401
+from app.models.enums import UserRole  # noqa: E402
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -49,3 +50,35 @@ app.dependency_overrides[get_db] = _override_get_db
 @pytest.fixture
 def client():
     return TestClient(app)
+
+
+@pytest.fixture
+def db():
+    session = TestSessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+
+
+@pytest.fixture
+def tenant(db):
+    t = Tenant(name="Leander Campus")
+    db.add(t)
+    db.commit()
+    db.refresh(t)
+    return t
+
+
+@pytest.fixture
+def user(db, tenant):
+    u = User(
+        name="Jane Admin",
+        email="jane.admin@example.com",
+        role=UserRole.TENANT_ADMIN,
+        home_tenant_id=tenant.id,
+    )
+    db.add(u)
+    db.commit()
+    db.refresh(u)
+    return u

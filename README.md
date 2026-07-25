@@ -19,17 +19,37 @@ evals/      Agent evaluation scripts and datasets
 
 ```bash
 cp .env.example .env
-# fill in .env values
+# fill in .env values (POSTGRES_USER/PASSWORD/DB, DATABASE_URL, TEST_DATABASE_URL)
 
-# backend
+# database
+docker compose up -d database
+
+# backend - install deps (from repo root; pyproject.toml is the source of truth)
+pip install -e ".[dev]"
+
+# apply migrations
 cd backend
-pip install -r requirements.txt
-python main.py
+alembic upgrade head
+
+# run the API
+uvicorn app.main:app --reload
 
 # frontend
 cd frontend
 npm install
 npm run dev
+```
+
+## Tests
+
+```bash
+# from repo root - requires TEST_DATABASE_URL in .env, pointing at a separate
+# database from DATABASE_URL (tests truncate all tables before each test)
+python -m pytest tests/ -v
+
+# lint + type check (also run in CI, see .github/workflows/ci.yml)
+ruff check .
+mypy backend/app
 ```
 
 ## Current Focus
