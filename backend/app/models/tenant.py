@@ -10,8 +10,12 @@ from app.database.base import Base
 from app.models.enums import EntityStatus
 
 if TYPE_CHECKING:
+    from app.models.audit_event import AuditEvent
+    from app.models.capacity import Capacity
     from app.models.franchisor import Franchisor
     from app.models.lead import Lead
+    from app.models.pricing_rule import PricingRule
+    from app.models.task import Task
     from app.models.user import User
     from app.models.user_tenant_access import UserTenantAccess
 
@@ -42,3 +46,7 @@ class Tenant(Base):
     home_users: Mapped[list["User"]] = relationship(back_populates="home_tenant")
     leads: Mapped[list["Lead"]] = relationship(back_populates="tenant")
     access_grants: Mapped[list["UserTenantAccess"]] = relationship(back_populates="tenant")
+    capacity_records: Mapped[list["Capacity"]] = relationship(back_populates="tenant")
+    pricing_rules: Mapped[list["PricingRule"]] = relationship(back_populates="tenant")
+    tasks: Mapped[list["Task"]] = relationship(back_populates="tenant")
+    audit_events: Mapped[list["AuditEvent"]] = relationship(back_populates="tenant")

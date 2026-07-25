@@ -10,7 +10,9 @@ from app.database.base import Base
 from app.models.enums import UserRole
 
 if TYPE_CHECKING:
+    from app.models.audit_event import AuditEvent
     from app.models.franchisor import Franchisor
+    from app.models.task import Task
     from app.models.tenant import Tenant
     from app.models.user_tenant_access import UserTenantAccess
 
@@ -40,3 +42,7 @@ class User(Base):
     tenant_access_grants: Mapped[list["UserTenantAccess"]] = relationship(
         back_populates="user"
     )
+    assigned_tasks: Mapped[list["Task"]] = relationship(
+        back_populates="assignee", foreign_keys="Task.assigned_user_id"
+    )
+    audit_events: Mapped[list["AuditEvent"]] = relationship(back_populates="user")

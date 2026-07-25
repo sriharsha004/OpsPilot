@@ -16,7 +16,17 @@ TestSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=test_eng
 from app.api.dependencies.database import get_db  # noqa: E402
 from app.database.base import Base  # noqa: E402
 from app.main import app  # noqa: E402
-from app.models import Franchisor, Lead, Tenant, User, UserTenantAccess  # noqa: E402, F401
+from app.models import (  # noqa: E402, F401
+    AuditEvent,
+    Capacity,
+    Franchisor,
+    Lead,
+    PricingRule,
+    Task,
+    Tenant,
+    User,
+    UserTenantAccess,
+)
 from app.models.enums import UserRole  # noqa: E402
 
 

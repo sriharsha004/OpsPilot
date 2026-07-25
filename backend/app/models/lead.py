@@ -10,6 +10,7 @@ from app.database.base import Base
 from app.models.enums import LeadSource, LeadStatus
 
 if TYPE_CHECKING:
+    from app.models.task import Task
     from app.models.tenant import Tenant
 
 
@@ -37,3 +38,4 @@ class Lead(Base):
     )
 
     tenant: Mapped["Tenant"] = relationship(back_populates="leads")
+    tasks: Mapped[list["Task"]] = relationship(back_populates="lead")

@@ -10,6 +10,7 @@ from app.database.base import Base
 from app.models.enums import EntityStatus
 
 if TYPE_CHECKING:
+    from app.models.audit_event import AuditEvent
     from app.models.tenant import Tenant
     from app.models.user import User
 
@@ -35,3 +36,4 @@ class Franchisor(Base):
 
     tenants: Mapped[list["Tenant"]] = relationship(back_populates="franchisor")
     users: Mapped[list["User"]] = relationship(back_populates="franchisor")
+    audit_events: Mapped[list["AuditEvent"]] = relationship(back_populates="franchisor")

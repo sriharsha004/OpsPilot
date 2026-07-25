@@ -10,7 +10,17 @@ from sqlalchemy import engine_from_config, pool
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from app.database.base import Base  # noqa: E402
-from app.models import Franchisor, Lead, Tenant, User, UserTenantAccess  # noqa: E402, F401
+from app.models import (  # noqa: E402, F401
+    AuditEvent,
+    Capacity,
+    Franchisor,
+    Lead,
+    PricingRule,
+    Task,
+    Tenant,
+    User,
+    UserTenantAccess,
+)
 
 load_dotenv()
 

@@ -39,3 +39,30 @@ class LeadStatus(StrEnum):
     FOLLOW_UP_REQUIRED = "follow_up_required"
     CONVERTED = "converted"
     CLOSED = "closed"
+
+
+class TaskStatus(StrEnum):
+    OPEN = "open"
+    DONE = "done"
+    SKIPPED = "skipped"
+
+
+class TaskPriority(StrEnum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    URGENT = "urgent"
+
+
+class AuditAccessType(StrEnum):
+    SUMMARY = "summary"
+    DETAIL = "detail"
+    EXPORT = "export"
+    MODIFICATION = "modification"
+    APPROVAL = "approval"
+
+
+class AuditResult(StrEnum):
+    SUCCESS = "success"
+    BLOCKED = "blocked"
+    ERROR = "error"
