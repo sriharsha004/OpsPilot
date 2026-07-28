@@ -21,24 +21,22 @@ evals/      Agent evaluation scripts and datasets
 cp .env.example .env
 # fill in .env values (POSTGRES_USER/PASSWORD/DB, DATABASE_URL, TEST_DATABASE_URL)
 
-# database
-docker compose up -d database
-
-# backend - install deps (from repo root; pyproject.toml is the source of truth)
+# backend - install deps once (from repo root; pyproject.toml is the source of truth)
 pip install -e ".[dev]"
 
-# apply migrations
-cd backend
-alembic upgrade head
-
-# run the API
-uvicorn app.main:app --reload
+# run everything - Postgres, migrations, API - with one command
+./scripts/dev.sh
 
 # frontend
 cd frontend
 npm install
 npm run dev
 ```
+
+`scripts/dev.sh` starts Postgres via Docker Compose, waits for its healthcheck, applies
+migrations, then runs the API with reload at http://localhost:8000 (docs at `/docs`).
+For the individual steps (e.g. to run migrations without starting the API), see
+`docker-compose.yml`, `backend/alembic/`, and `backend/app/main.py`.
 
 ## Tests
 
